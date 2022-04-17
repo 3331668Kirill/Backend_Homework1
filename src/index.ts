@@ -141,7 +141,7 @@ app.delete('/hs_01/api/bloggers/:Id', (req: Request, res: Response) => {
 
 
 app.post('/hs_01/api/posts', (req: Request, res: Response) => {
-    const blogger = bloggers.find(b => b.id === req.body.blogId)
+    const blogger = bloggers.find(b => b.id === req.body.bloggerId)
 
     if (!req.body.shortDescription
         && !req.body.content && !req.body.title) {
