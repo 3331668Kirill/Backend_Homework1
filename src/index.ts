@@ -141,9 +141,10 @@ app.put('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
 app.delete('/hs_01/api/bloggers/:Id', (req: Request, res: Response) => {
     const id = +req.params.Id
     const newBloggers = bloggers.filter(b => b.id === id)
-    const ind = bloggers.indexOf(newBloggers[0])
-    bloggers.splice(ind,1)
-    if (newBloggers.length < bloggers.length) {
+    console.log(newBloggers)
+    if (newBloggers.length && newBloggers.length < bloggers.length) {
+        const ind = bloggers.indexOf(newBloggers[0])
+        bloggers.splice(ind,1)
         res.status(204)
             res.send(204)
     } else {
