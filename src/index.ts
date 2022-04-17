@@ -20,6 +20,11 @@ app.get('/hs_01/api/bloggers/', (req: Request, res: Response) => {
     res.send(bloggers);
 })
 
+app.get('/hs_01/api/posts', (req: Request, res: Response) => {
+    res.status(200)
+    res.send(posts)
+})
+
 app.post('/hs_01/api/bloggers', (req: Request, res: Response) => {
     let isValid = true;
     let errorMessage: ErrorMessageType[] = [];
@@ -133,22 +138,22 @@ app.put('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
     }
 })
 
-app.delete('/hs_01/api/bloggers/:postId', (req: Request, res: Response) => {
-    const id = +req.params.postId
-    const newBloggers = bloggers.filter(b => b.id != id)
+app.delete('/hs_01/api/bloggers/:Id', (req: Request, res: Response) => {
+    const id = +req.params.Id
+    const newBloggers = bloggers.filter(b => b.id === id)
+    const ind = bloggers.indexOf(newBloggers[0])
+    bloggers.splice(ind,1)
     if (newBloggers.length < bloggers.length) {
         res.status(204)
             res.send(204)
     } else {
         res.status(404)
-        res.send( "blogger not found")
+        res.send( 404)
     }
 })
 
 
-app.get('/hs_01/api/posts', (req: Request, res: Response) => {
-    res.send(posts)
-})
+
 
 app.post('/hs_01/api/posts', (req: Request, res: Response) => {
     const blogger = bloggers.find(b => b.id === req.body.blogId)
