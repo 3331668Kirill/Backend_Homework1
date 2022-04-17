@@ -15,7 +15,7 @@ app.use(cors())
 app.use(jsonBodyMiddleware)
 
 
-app.get('hs_01/api/bloggers/', (req: Request, res: Response) => {
+app.get('/hs_01/api/bloggers/', (req: Request, res: Response) => {
     res.status(200).send(bloggers);
 })
 
@@ -224,14 +224,14 @@ app.delete('/api/posts/:postId', (req: Request, res: Response) => {
     }
 })
 
-app.get('/*', (req: Request, res: Response) => {
-    res.send({
-        "/api/bloggers": "GET, POST",
-        "/api/bloggers/:postId": "GET, PUT, DELETE",
-        "/api/posts": "GET, POST",
-        "/api/posts/:postId": "GET, PUT, DELETE"
-    })
-})
+// app.get('/*', (req: Request, res: Response) => {
+//     res.send({
+//         "/api/bloggers": "GET, POST",
+//         "/api/bloggers/:postId": "GET, PUT, DELETE",
+//         "/api/posts": "GET, POST",
+//         "/api/posts/:postId": "GET, PUT, DELETE"
+//     })
+// })
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
