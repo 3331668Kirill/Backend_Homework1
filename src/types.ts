@@ -8,7 +8,7 @@ export type PostType = {
     title: string | null;
     shortDescription: string | null;
     content: string | null;
-    blogId: number;
+    bloggerId: number;
     bloggerName: string | null;
 }
 
