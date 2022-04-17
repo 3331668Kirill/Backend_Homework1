@@ -15,7 +15,7 @@ app.use(cors())
 app.use(jsonBodyMiddleware)
 
 
-app.get('/api/bloggers/', (req: Request, res: Response) => {
+app.get('hs_01/api/bloggers/', (req: Request, res: Response) => {
     res.status(200).send(bloggers);
 })
 
