@@ -172,7 +172,7 @@ app.post('/hs_01/api/posts', (req: Request, res: Response) => {
             id: +(new Date()),
             title: req.body.title,
             content: req.body.content,
-            blogId: req.body.blogId,
+            bloggerId: req.body.blogId,
             shortDescription: req.body.shortDescription,
             bloggerName: blogger.name
         }
