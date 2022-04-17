@@ -141,7 +141,7 @@ app.delete('/hs_01/api/bloggers/:Id', (req: Request, res: Response) => {
 
 
 app.post('/hs_01/api/posts', (req: Request, res: Response) => {
-    const blogger = bloggers.find(b => b.id === req.body.bloggerId)
+    const blogger = bloggers.find(b => b.id === +req.body.bloggerId)
 
     if (!req.body.shortDescription
         && !req.body.content && !req.body.title) {
@@ -201,7 +201,7 @@ app.put('/hs_01/api/posts/:postsId', (req: Request, res: Response) => {
         if (req.body.content) {
             post.content = req.body.content
         }
-        res.send(post)
+        res.status(204).send(post)
     }
 })
 
