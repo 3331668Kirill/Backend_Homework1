@@ -19,7 +19,7 @@ app.get('/hs_01/api/bloggers/', (req: Request, res: Response) => {
     res.status(200).send(bloggers);
 })
 
-app.post('/api/bloggers', (req: Request, res: Response) => {
+app.post('/hs_01/api/bloggers', (req: Request, res: Response) => {
     let isValid = true;
     let errorMessage: ErrorMessageType[] = [];
     if (!req.body.name) {
@@ -57,7 +57,7 @@ app.post('/api/bloggers', (req: Request, res: Response) => {
     }
 })
 
-app.get('/api/bloggers/:bloggerId', (req: Request, res: Response) => {
+app.get('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
     const id = +req.params.bloggerId
     const blogger = bloggers.find(b => b.id === id)
     if (blogger) {
@@ -77,7 +77,7 @@ app.get('/api/bloggers/:bloggerId', (req: Request, res: Response) => {
     }
 })
 
-app.put('/api/bloggers/:bloggerId', (req: Request, res: Response) => {
+app.put('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
     let isValid = true;
     let errorMessage: ErrorMessageType[] = [];
     const id = +req.params.bloggerId
@@ -132,7 +132,7 @@ app.put('/api/bloggers/:bloggerId', (req: Request, res: Response) => {
     }
 })
 
-app.delete('/api/bloggers/:postId', (req: Request, res: Response) => {
+app.delete('/hs_01/api/bloggers/:postId', (req: Request, res: Response) => {
     const id = +req.params.postId
     const newBloggers = bloggers.filter(b => b.id != id)
     if (newBloggers.length < bloggers.length) {
@@ -145,11 +145,11 @@ app.delete('/api/bloggers/:postId', (req: Request, res: Response) => {
 })
 
 
-app.get('/api/posts', (req: Request, res: Response) => {
+app.get('/hs_01/api/posts', (req: Request, res: Response) => {
     res.send(posts)
 })
 
-app.post('/api/posts', (req: Request, res: Response) => {
+app.post('/hs_01/api/posts', (req: Request, res: Response) => {
     const blogger = bloggers.find(b => b.id === req.body.blogId)
     if (!req.body.shortDescription
         && !req.body.content && !req.body.title) {
@@ -174,7 +174,7 @@ app.post('/api/posts', (req: Request, res: Response) => {
 
 })
 
-app.get('/api/posts/:postId', (req: Request, res: Response) => {
+app.get('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
     const id = +req.params.postId
     const post = posts.find(p => p.id === id)
     if (post) {
@@ -184,7 +184,7 @@ app.get('/api/posts/:postId', (req: Request, res: Response) => {
     }
 })
 
-app.put('/api/posts/:postsId', (req: Request, res: Response) => {
+app.put('/hs_01/api/posts/:postsId', (req: Request, res: Response) => {
     const id = +req.params.postsId
 
     if (!req.body.title) {
@@ -214,7 +214,7 @@ app.put('/api/posts/:postsId', (req: Request, res: Response) => {
 })
 
 
-app.delete('/api/posts/:postId', (req: Request, res: Response) => {
+app.delete('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
     const id = +req.params.postId
     const newPosts = posts.filter(p => p.id != id)
     if (newPosts.length < posts.length) {
