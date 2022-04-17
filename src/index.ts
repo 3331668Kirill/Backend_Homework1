@@ -20,8 +20,8 @@ app.get('/hs_01/api/bloggers/', (req: Request, res: Response) => {
     res.send(bloggers);
 })
 
-app.get('/hs_01/api/posts/posts', (req: Request, res: Response) => {
-    res.status(200)
+app.get('/hs_01/api/posts', (req: Request, res: Response) => {
+    //res.status(200)
     res.send(posts)
 })
 
