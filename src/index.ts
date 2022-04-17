@@ -186,19 +186,20 @@ app.put('/hs_01/api/posts/:postsId', (req: Request, res: Response) => {
         })
         return;
     }
-
-
     const post = posts.find(p => p.id === id)
+
+
     if (!post) {
         res.send(404)
     } else {
-        if (req.body.title) {
+        const blogger = bloggers.find(b => b.id === post.bloggerId)
+        if (req.body.title && blogger) {
             post.title = req.body.title
         }
-        if (req.body.shortDescription) {
+        if (req.body.shortDescription && blogger) {
             post.shortDescription = req.body.shortDescription
         }
-        if (req.body.content) {
+        if (req.body.content && blogger) {
             post.content = req.body.content
         }
         res.status(204).send(post)
