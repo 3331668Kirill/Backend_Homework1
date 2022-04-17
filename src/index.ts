@@ -16,19 +16,20 @@ app.use(jsonBodyMiddleware)
 
 
 app.get('/api/bloggers', (req: Request, res: Response) => {
-    res.statusCode = 200;
+    res.status(200);
     res.send(bloggers)
 })
 
 app.post('/api/bloggers', (req: Request, res: Response) => {
     let isValid = true;
     let errorMessage: ErrorMessageType[] = [];
-    if (!req.body.name && req.body.name.length < 1) {
+    if (!req.body.name) {
         isValid = false
         errorMessage.push({
             message: "name required",
             field: "name"
         })
+        res.send(400)
     }
     if (!urlForValidation.test(req.body.youtubeUrl)) {
         isValid = false
@@ -37,6 +38,7 @@ app.post('/api/bloggers', (req: Request, res: Response) => {
                 " '^https://([a-zA-Z0-9_-]+\\\\.)+[a-zA-Z0-9_-]+(\\\\/[a-zA-Z0-9_-]+)*\\\\/?$'.\"",
             field: "youtubeUrl"
         })
+        res.send(400)
     }
     if (isValid) {
         const newBlogger = {
@@ -45,10 +47,10 @@ app.post('/api/bloggers', (req: Request, res: Response) => {
             youtubeUrl: req.body.youtubeUrl
         }
         bloggers.push(newBlogger)
-        res.statusCode = 201;
+        res.status(201);
         res.send(newBlogger)
     } else {
-        res.status(400)
+        res.status(404)
         res.send({
             "errorsMessages": errorMessage,
             "resultCode": 1
@@ -60,17 +62,19 @@ app.get('/api/bloggers/:bloggerId', (req: Request, res: Response) => {
     const id = +req.params.bloggerId
     const blogger = bloggers.find(b => b.id === id)
     if (blogger) {
-        res.statusCode = 200;
+        res.status(200);
         res.send(blogger)
     } else {
         res.status(404)
-        res.send({
-            "errorsMessages": [{
-                message: "blogger not found or blogger's id invalid",
-                field: "id"
-            }],
-            "resultCode": 1
-        })
+        res.send(404
+        //     {
+        //     "errorsMessages": [{
+        //         message: "blogger not found or blogger's id invalid",
+        //         field: "id"
+        //     }],
+        //     "resultCode": 1
+        // }
+        )
     }
 })
 
@@ -81,13 +85,15 @@ app.put('/api/bloggers/:bloggerId', (req: Request, res: Response) => {
     const blogger = bloggers.find(b => b.id === id)
     if (!blogger) {
         res.status(404)
-        res.send({
-            "errorsMessages": [{
-                message: "blogger not found",
-                field: "id"
-            }],
-            "resultCode": 0
-        })
+        res.send(404
+        //     {
+        //     "errorsMessages": [{
+        //         message: "blogger not found",
+        //         field: "id"
+        //     }],
+        //     "resultCode": 0
+        // }
+        )
         return
     }
     if (!urlForValidation.test(req.body.youtubeUrl)) {
@@ -96,6 +102,7 @@ app.put('/api/bloggers/:bloggerId', (req: Request, res: Response) => {
             message: "blogger's youtube`s URL invalid",
             field: "youtubeUrl"
         })
+        res.send(400)
     }
     if (!id) {
         isValid = false;
@@ -103,6 +110,7 @@ app.put('/api/bloggers/:bloggerId', (req: Request, res: Response) => {
             message: "blogger's id is invalid",
             field: "id"
         })
+        res.send(400)
     }
     if (!req.body.name) {
         isValid = false;
@@ -110,6 +118,7 @@ app.put('/api/bloggers/:bloggerId', (req: Request, res: Response) => {
             message: "blogger's name is invalid",
             field: "name"
         })
+        res.send(400)
     }
     if (isValid) {
         blogger.name = req.body.name
@@ -120,6 +129,7 @@ app.put('/api/bloggers/:bloggerId', (req: Request, res: Response) => {
         res.send({"errorsMessages": errorMessage,
             "resultCode": 1
         })
+        res.send(400)
     }
 })
 
@@ -127,7 +137,8 @@ app.delete('/api/bloggers/:postId', (req: Request, res: Response) => {
     const id = +req.params.postId
     const newBloggers = bloggers.filter(b => b.id != id)
     if (newBloggers.length < bloggers.length) {
-        res.status(204).send('blogger has been deleted')
+        res.status(204)
+            res.send(204)
     } else {
         res.status(404)
         res.send( "blogger not found")
