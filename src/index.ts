@@ -71,15 +71,7 @@ app.get('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
         res.send(blogger)
     } else {
         res.status(404)
-        res.send(404
-        //     {
-        //     "errorsMessages": [{
-        //         message: "blogger not found or blogger's id invalid",
-        //         field: "id"
-        //     }],
-        //     "resultCode": 1
-        // }
-        )
+        res.send(404)
     }
 })
 
@@ -90,15 +82,7 @@ app.put('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
     const blogger = bloggers.find(b => b.id === id)
     if (!blogger) {
         res.status(404)
-        res.send(404
-        //     {
-        //     "errorsMessages": [{
-        //         message: "blogger not found",
-        //         field: "id"
-        //     }],
-        //     "resultCode": 0
-        // }
-        )
+        res.send(404)
         return
     }
     if (!urlForValidation.test(req.body.youtubeUrl)) {
@@ -232,14 +216,6 @@ app.delete('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
     }
 })
 
-// app.get('/*', (req: Request, res: Response) => {
-//     res.send({
-//         "/api/bloggers": "GET, POST",
-//         "/api/bloggers/:postId": "GET, PUT, DELETE",
-//         "/api/posts": "GET, POST",
-//         "/api/posts/:postId": "GET, PUT, DELETE"
-//     })
-// })
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
