@@ -16,7 +16,7 @@ app.use(jsonBodyMiddleware)
 
 
 app.get('/api/bloggers', (req: Request, res: Response) => {
-    res.status(200);
+    res.send(200);
     res.send(bloggers)
 })
 
