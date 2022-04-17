@@ -16,8 +16,8 @@ app.use(jsonBodyMiddleware)
 
 
 app.get('/api/bloggers', (req: Request, res: Response) => {
-    res.send(200);
-    res.send(bloggers)
+    //res.send(200);
+    res.send(bloggers);
 })
 
 app.post('/api/bloggers', (req: Request, res: Response) => {
