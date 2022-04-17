@@ -20,7 +20,7 @@ app.get('/hs_01/api/bloggers/', (req: Request, res: Response) => {
     res.send(bloggers);
 })
 
-app.get('/posts', (req: Request, res: Response) => {
+app.get('/hs_01/api/posts', (req: Request, res: Response) => {
     //res.status(200)
     res.send(posts)
 })
@@ -185,7 +185,7 @@ app.get('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
     const id = +req.params.postId
     const post = posts.find(p => p.id === id)
     if (post) {
-        res.send(post)
+        res.send(200)
     } else {
         res.send(404)
     }
