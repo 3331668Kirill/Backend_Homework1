@@ -193,7 +193,10 @@ app.put('/hs_01/api/posts/:postsId', (req: Request, res: Response) => {
         res.send(404)
     } else {
         const blogger = bloggers.find(b => b.id === post.bloggerId)
-        if(!blogger) res.send(400)
+        if(!blogger) {
+            res.send(400)
+            return
+        }
         if (req.body.title && blogger) {
             post.title = req.body.title
         }
@@ -202,6 +205,7 @@ app.put('/hs_01/api/posts/:postsId', (req: Request, res: Response) => {
         }
         if (req.body.content && blogger) {
             post.content = req.body.content
+            post.bloggerId = req.body.bloggerId
         }
         res.status(204).send(post)
     }
