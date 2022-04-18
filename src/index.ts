@@ -161,7 +161,7 @@ app.post('/hs_01/api/posts', (req: Request, res: Response) => {
             bloggerName: blogger.name
         }
         posts.push(newPost)
-        res.send(newPost)
+        res.status(201).send(newPost)
     }
 
 })
