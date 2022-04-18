@@ -193,9 +193,15 @@ app.put('/hs_01/api/posts/:postsId', (req: Request, res: Response) => {
         res.send(404)
     } else {
         const blogger = bloggers.find(b => b.id === post.bloggerId)
+        const blogger2 = bloggers.find(b => b.id === req.body.bloggerId)
+
         if (req.body.bloggerId === post.bloggerId){
             res.send(400)
 
+        }
+        if(!blogger2) {
+            res.send(400)
+            return
         }
         if(!blogger) {
             res.send(400)
