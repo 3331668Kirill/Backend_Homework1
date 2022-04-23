@@ -211,6 +211,12 @@ app.put('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
             "resultCode": 0
         })
     } else {
+        updatedPost.content = req.body.content
+        updatedPost.title = req.body.title,
+            updatedPost.shortDescription = req.body.shortDescription,
+            updatedPost.content = req.body.content,
+
+
         res.status(204).send(updatePost)
     }
 })
