@@ -226,7 +226,7 @@ app.delete('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
     const id = +req.params.postId
     const newPosts = posts.filter(p => p.id === id)
 
-    if (newPosts.length && newPosts.length < posts.length) {
+    if (newPosts) {
         const ind = posts.indexOf(newPosts[0])
         posts.splice(ind,1)
         res.status(204)
