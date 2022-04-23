@@ -211,7 +211,7 @@ app.put('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
             "resultCode": 0
         })
     } else {
-        res.status(204).send(updatedPost)
+        res.status(204).send(updatePost)
     }
 })
 
