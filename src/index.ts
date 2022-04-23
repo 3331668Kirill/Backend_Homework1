@@ -126,7 +126,7 @@ app.delete('/hs_01/api/bloggers/:Id', (req: Request, res: Response) => {
     const id = +req.params.Id
     const newBloggers = bloggers.filter(b => b.id === id)
 
-    if (newBloggers.length && newBloggers.length < bloggers.length) {
+    if (newBloggers.length && newBloggers.length <= bloggers.length) {
         const ind = bloggers.indexOf(newBloggers[0])
         bloggers.splice(ind,1)
         res.status(204)
@@ -226,7 +226,7 @@ app.delete('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
     const id = +req.params.postId
     const newPosts = posts.filter(p => p.id === id)
 
-    if (newPosts) {
+    if (newPosts.length && newPosts.length <= posts.length) {
         const ind = posts.indexOf(newPosts[0])
         posts.splice(ind,1)
         res.status(204)
