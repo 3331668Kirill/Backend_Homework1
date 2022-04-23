@@ -176,7 +176,7 @@ app.get('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
     }
 })
 
-app.put('/hs_01/api/posts/:postsId', (req: Request, res: Response) => {
+app.put('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
 
     const id = +req.params.postId
     const updatePost = {
@@ -213,53 +213,6 @@ app.put('/hs_01/api/posts/:postsId', (req: Request, res: Response) => {
     } else {
         res.status(204).send(updatedPost)
     }
-
-
-
-
-
-
-    // if (!req.body.title) {
-    //
-    //     res.status(400).send({
-    //         errors: [{filed: 'title', message: 'Title firled is required'}]
-    //     })
-    //     return;
-    // }
-    // const post = posts.find(p => p.id === id)
-    //
-    //
-    // if (!post) {
-    //     res.send(404)
-    // } else {
-    //     const blogger = bloggers.find(b => b.id === post.bloggerId)
-    //     const blogger2 = bloggers.find(b => b.id === req.body.bloggerId)
-    //
-    //     if (req.body.bloggerId === post.bloggerId){
-    //         res.send(400)
-    //
-    //     }
-    //     if(!blogger2) {
-    //         res.send(400)
-    //         return
-    //     }
-    //     if(!blogger) {
-    //         res.send(400)
-    //         return
-    //     }
-    //     if (req.body.title && blogger && blogger2) {
-    //         post.title = req.body.title
-    //     }
-    //     if (req.body.shortDescription && blogger && blogger2) {
-    //         post.shortDescription = req.body.shortDescription
-    //     }
-    //     if (req.body.content && blogger && blogger2) {
-    //         post.content = req.body.content
-    //         post.bloggerId = req.body.bloggerId
-    //     }
-    //
-    //     res.status(204).send(post)
-    // }
 })
 
 
