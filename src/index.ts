@@ -207,13 +207,13 @@ app.put('/hs_01/api/posts/:postsId', (req: Request, res: Response) => {
             res.send(400)
             return
         }
-        if (req.body.title && blogger) {
+        if (req.body.title && blogger && blogger2) {
             post.title = req.body.title
         }
-        if (req.body.shortDescription && blogger) {
+        if (req.body.shortDescription && blogger && blogger2) {
             post.shortDescription = req.body.shortDescription
         }
-        if (req.body.content && blogger) {
+        if (req.body.content && blogger && blogger2) {
             post.content = req.body.content
             post.bloggerId = req.body.bloggerId
         }
