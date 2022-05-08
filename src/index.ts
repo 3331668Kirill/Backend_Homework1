@@ -80,6 +80,10 @@ app.put('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
         res.send(401)
         return
     }
+    if (req.headers.authorization !== 'Basic admin:qwerty'){
+        res.send(401)
+        return
+    }
     let isValid = true;
     let errorMessage: ErrorMessageType[] = [];
     const id = +req.params.bloggerId
@@ -185,6 +189,11 @@ app.put('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
         res.send(401)
         return
     }
+    if (req.headers.authorization !== 'Basic admin:qwerty'){
+        res.send(401)
+        return
+    }
+
     const id = +req.params.postId
     const updatePost = {
         title: req.body.title,
