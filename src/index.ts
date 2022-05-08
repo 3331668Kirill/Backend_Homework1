@@ -76,6 +76,10 @@ app.get('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
 })
 
 app.put('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
+    if (!req.headers.authorization) {
+        res.send(401)
+        return
+    }
     let isValid = true;
     let errorMessage: ErrorMessageType[] = [];
     const id = +req.params.bloggerId
