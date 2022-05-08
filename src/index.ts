@@ -76,12 +76,17 @@ app.get('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
 })
 
 app.put('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
-    if (!req.headers || !req.headers.authorization ) {
-        res.send(401)
+    if (!req.headers) {
+        res.sendStatus(401)
         return
-    }
-    if (req.headers.authorization !== 'Basic admin:qwerty'){
-        res.send(401)
+    } else if (!req.headers.authorization || typeof req.headers.authorization != 'string'
+    ) {
+        res.sendStatus(401)
+        return
+    } else if (!req.headers.authorization.split(" ")[1]
+        || req.headers.authorization.split(" ")[1] == "admin:qwerty"
+        || req.headers.authorization.split(" ")[0] != "Basic") {
+        res.sendStatus(401)
         return
     }
     let isValid = true;
@@ -185,12 +190,17 @@ app.get('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
 })
 
 app.put('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
-    if (!req.headers || !req.headers.authorization ) {
-        res.send(401)
+    if (!req.headers) {
+        res.sendStatus(401)
         return
-    }
-    if (req.headers.authorization !== 'Basic admin:qwerty'){
-        res.send(401)
+    } else if (!req.headers.authorization || typeof req.headers.authorization != 'string'
+    ) {
+        res.sendStatus(401)
+        return
+    } else if (!req.headers.authorization.split(" ")[1]
+        || req.headers.authorization.split(" ")[1] == "admin:qwerty"
+        || req.headers.authorization.split(" ")[0] != "Basic") {
+        res.sendStatus(401)
         return
     }
 
