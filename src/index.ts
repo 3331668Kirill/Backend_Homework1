@@ -124,7 +124,7 @@ app.put('/hs_01/api/bloggers/:bloggerId',checkHeaders, (req: Request, res: Respo
     }
 })
 
-app.delete('/hs_01/api/bloggers/:Id', (req: Request, res: Response) => {
+app.delete('/hs_01/api/bloggers/:Id',checkHeaders, (req: Request, res: Response) => {
     const id = +req.params.Id
     const newBloggers = bloggers.filter(b => b.id === id)
 
@@ -224,7 +224,7 @@ app.put('/hs_01/api/posts/:postId', checkHeaders, (req: Request, res: Response) 
 })
 
 
-app.delete('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
+app.delete('/hs_01/api/posts/:postId',checkHeaders, (req: Request, res: Response) => {
     const id = +req.params.postId
     const newPosts = posts.filter(p => p.id === id)
 
