@@ -29,7 +29,7 @@ app.get('/hs_01/api/bloggers/',paginationRules,
     res.send(bloggers);
 })
 
-app.get('/hs_01/api/posts', (req: Request, res: Response) => {
+app.get('/hs_01/api/posts', paginationRules, (req: Request, res: Response) => {
     //res.status(200)
     res.send(posts)
 })
@@ -38,26 +38,7 @@ app.post('/hs_01/api/bloggers',
     checkHeaders,
     bloggerValidationRules,
     inputValidatorMiddleware, (req: Request, res: Response) => {
-    // let isValid = true;
-    // let errorMessage: ErrorMessageType[] = [];
-    // if (!req.body.name) {
-    //     isValid = false
-    //     errorMessage.push({
-    //         message: "name required",
-    //         field: "name"
-    //     })
-    //     res.send(400)
-    // }
-    // if (!urlForValidation.test(req.body.youtubeUrl)) {
-    //     isValid = false
-    //     errorMessage.push({
-    //         message: "The field YoutubeUrl must match the regular expression" +
-    //             " '^https://([a-zA-Z0-9_-]+\\\\.)+[a-zA-Z0-9_-]+(\\\\/[a-zA-Z0-9_-]+)*\\\\/?$'.\"",
-    //         field: "youtubeUrl"
-    //     })
-    //     res.send(400)
-    // }
-    // if (isValid) {
+
         const newBlogger = {
             id: +(new Date()),
             name: req.body.name,
@@ -66,16 +47,10 @@ app.post('/hs_01/api/bloggers',
         bloggers.push(newBlogger)
         res.status(201);
         res.send(newBlogger)
-    // } else {
-    //     res.status(404)
-    //     res.send({
-    //         "errorsMessages": errorMessage,
-    //         "resultCode": 1
-    //     })
-    // }
+
 })
 
-app.get('/hs_01/api/bloggers/:bloggerId',
+app.get('/hs_01/api/bloggers/:bloggerId', paginationRules,
     check('bloggerId').isInt({min: 1}).withMessage('id should be integer positive value'),
     inputValidatorMiddleware, (req: Request, res: Response) => {
     const id = +req.params.bloggerId
@@ -144,9 +119,7 @@ app.put('/hs_01/api/bloggers/:bloggerId',
 
 app.delete('/hs_01/api/bloggers/:Id',
     checkHeaders,
-    // check('Id').isInt({min: 1}).withMessage('id should be positive integer value'),
-    // bloggerValidationRules,
-    // inputValidatorMiddleware,
+
     (req: Request, res: Response) => {
     const id = +req.params.Id
     const newBloggers = bloggers.filter(b => b.id === id)
