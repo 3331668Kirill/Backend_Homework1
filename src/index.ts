@@ -26,7 +26,7 @@ app.get('/hs_01/api/posts', (req: Request, res: Response) => {
     res.send(posts)
 })
 
-app.post('/hs_01/api/bloggers', (req: Request, res: Response) => {
+app.post('/hs_01/api/bloggers',checkHeaders, (req: Request, res: Response) => {
     let isValid = true;
     let errorMessage: ErrorMessageType[] = [];
     if (!req.body.name) {
@@ -142,7 +142,7 @@ app.delete('/hs_01/api/bloggers/:Id', (req: Request, res: Response) => {
 
 
 
-app.post('/hs_01/api/posts', (req: Request, res: Response) => {
+app.post('/hs_01/api/posts',checkHeaders, (req: Request, res: Response) => {
     const blogger = bloggers.find(b => b.id === +req.body.bloggerId)
 
     if (!req.body.shortDescription
