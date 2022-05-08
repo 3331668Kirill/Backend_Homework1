@@ -34,28 +34,30 @@ app.get('/hs_01/api/posts', (req: Request, res: Response) => {
     res.send(posts)
 })
 
-app.post('/hs_01/api/bloggers',checkHeaders,bloggerValidationRules,
+app.post('/hs_01/api/bloggers',
+    checkHeaders,
+    bloggerValidationRules,
     inputValidatorMiddleware, (req: Request, res: Response) => {
-    let isValid = true;
-    let errorMessage: ErrorMessageType[] = [];
-    if (!req.body.name) {
-        isValid = false
-        errorMessage.push({
-            message: "name required",
-            field: "name"
-        })
-        res.send(400)
-    }
-    if (!urlForValidation.test(req.body.youtubeUrl)) {
-        isValid = false
-        errorMessage.push({
-            message: "The field YoutubeUrl must match the regular expression" +
-                " '^https://([a-zA-Z0-9_-]+\\\\.)+[a-zA-Z0-9_-]+(\\\\/[a-zA-Z0-9_-]+)*\\\\/?$'.\"",
-            field: "youtubeUrl"
-        })
-        res.send(400)
-    }
-    if (isValid) {
+    // let isValid = true;
+    // let errorMessage: ErrorMessageType[] = [];
+    // if (!req.body.name) {
+    //     isValid = false
+    //     errorMessage.push({
+    //         message: "name required",
+    //         field: "name"
+    //     })
+    //     res.send(400)
+    // }
+    // if (!urlForValidation.test(req.body.youtubeUrl)) {
+    //     isValid = false
+    //     errorMessage.push({
+    //         message: "The field YoutubeUrl must match the regular expression" +
+    //             " '^https://([a-zA-Z0-9_-]+\\\\.)+[a-zA-Z0-9_-]+(\\\\/[a-zA-Z0-9_-]+)*\\\\/?$'.\"",
+    //         field: "youtubeUrl"
+    //     })
+    //     res.send(400)
+    // }
+    // if (isValid) {
         const newBlogger = {
             id: +(new Date()),
             name: req.body.name,
@@ -64,13 +66,13 @@ app.post('/hs_01/api/bloggers',checkHeaders,bloggerValidationRules,
         bloggers.push(newBlogger)
         res.status(201);
         res.send(newBlogger)
-    } else {
-        res.status(404)
-        res.send({
-            "errorsMessages": errorMessage,
-            "resultCode": 1
-        })
-    }
+    // } else {
+    //     res.status(404)
+    //     res.send({
+    //         "errorsMessages": errorMessage,
+    //         "resultCode": 1
+    //     })
+    // }
 })
 
 app.get('/hs_01/api/bloggers/:bloggerId',
