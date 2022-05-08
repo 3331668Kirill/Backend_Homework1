@@ -156,7 +156,13 @@ app.delete('/hs_01/api/bloggers/:Id',
             res.send(204)
     } else {
         res.status(404)
-        res.send( 404)
+        res.send({
+            "errorsMessages": [{
+                message: "blogger not found",
+                field: "id"
+            }],
+            "resultCode": 0
+        })
     }
 })
 
