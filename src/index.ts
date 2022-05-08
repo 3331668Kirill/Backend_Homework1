@@ -173,7 +173,7 @@ app.post('/hs_01/api/posts',
         && !req.body.content && !req.body.title) {
         res.send(400)
     } else if (!blogger) {
-        res.status(400).send('such blogger doesn`t exist')
+        res.status(400).send({ errorsMessages: [{ message: "such blogger doesn`t exist", field: req.body.bloggerId }], resultCode: 1 })
     } else if (req.body.shortDescription > 100) {
         res.status(400).send('max length 100')
     }
