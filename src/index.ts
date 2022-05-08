@@ -142,7 +142,7 @@ app.put('/hs_01/api/bloggers/:bloggerId',
 
 app.delete('/hs_01/api/bloggers/:Id',
     checkHeaders,
-    check('bloggerId').isInt({min: 1}).withMessage('id should be positive integer value'),
+    check('Id').isInt({min: 1}).withMessage('id should be positive integer value'),
     bloggerValidationRules,
     inputValidatorMiddleware,
     (req: Request, res: Response) => {
