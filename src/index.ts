@@ -181,7 +181,10 @@ app.get('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
 })
 
 app.put('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
-
+    if (!req.headers || !req.headers.authorization ) {
+        res.send(401)
+        return
+    }
     const id = +req.params.postId
     const updatePost = {
         title: req.body.title,
