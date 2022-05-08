@@ -232,12 +232,13 @@ app.put('/hs_01/api/posts/:postId',
     const bloggerToUpdate = bloggers.find(b => b.id === updatePost.bloggerId)
     if (!bloggerToUpdate) {
         res.status(400).send({
-            "data": {},
-            "errorsMessages": [{
-                message: "blogger not found",
-                field: "bloggerId"
-            }],
-            "resultCode": 0
+            "errorsMessages": [
+                {
+                    message: "blogger not found",
+                    field: "bloggerId"
+                }
+            ],
+            "resultCode": 1
         })
         return
     }
