@@ -3,6 +3,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import {ErrorMessageType, PostType} from "./types";
 import {bloggers, posts} from "./state";
+import {checkHeaders} from "./middlewares/base-authmiddleware";
 
 const port = process.env.PORT || 5002
 const jsonBodyMiddleware = bodyParser.json()
@@ -75,20 +76,8 @@ app.get('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
     }
 })
 
-app.put('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
-    if (!req.headers) {
-        res.sendStatus(401)
-        return
-    } else if (!req.headers.authorization || typeof req.headers.authorization != 'string'
-    ) {
-        res.sendStatus(401)
-        return
-    } else if (!req.headers.authorization.split(" ")[1]
-        || req.headers.authorization.split(" ")[1] == "admin:qwerty"
-        || req.headers.authorization.split(" ")[0] != "Basic") {
-        res.sendStatus(401)
-        return
-    }
+app.put('/hs_01/api/bloggers/:bloggerId',checkHeaders, (req: Request, res: Response) => {
+
     let isValid = true;
     let errorMessage: ErrorMessageType[] = [];
     const id = +req.params.bloggerId
@@ -189,20 +178,7 @@ app.get('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
     }
 })
 
-app.put('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
-    if (!req.headers) {
-        res.sendStatus(401)
-        return
-    } else if (!req.headers.authorization || typeof req.headers.authorization != 'string'
-    ) {
-        res.sendStatus(401)
-        return
-    } else if (!req.headers.authorization.split(" ")[1]
-        || req.headers.authorization.split(" ")[1] == "admin:qwerty"
-        || req.headers.authorization.split(" ")[0] != "Basic") {
-        res.sendStatus(401)
-        return
-    }
+app.put('/hs_01/api/posts/:postId', checkHeaders, (req: Request, res: Response) => {
 
     const id = +req.params.postId
     const updatePost = {
