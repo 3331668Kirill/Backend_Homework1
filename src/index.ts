@@ -4,6 +4,13 @@ import bodyParser from 'body-parser'
 import {ErrorMessageType, PostType} from "./types";
 import {bloggers, posts} from "./state";
 import {checkHeaders} from "./middlewares/base-authmiddleware";
+import {
+    bloggerValidationRules,
+    inputValidatorMiddleware,
+    paginationRules,
+    postValidationRules
+} from "./middlewares/input-validator";
+import {check} from "express-validator";
 
 const port = process.env.PORT || 5002
 const jsonBodyMiddleware = bodyParser.json()
@@ -16,7 +23,8 @@ app.use(cors())
 app.use(jsonBodyMiddleware)
 
 
-app.get('/hs_01/api/bloggers/', (req: Request, res: Response) => {
+app.get('/hs_01/api/bloggers/',paginationRules,
+    inputValidatorMiddleware, (req: Request, res: Response) => {
     //res.status(200)
     res.send(bloggers);
 })
@@ -26,7 +34,8 @@ app.get('/hs_01/api/posts', (req: Request, res: Response) => {
     res.send(posts)
 })
 
-app.post('/hs_01/api/bloggers',checkHeaders, (req: Request, res: Response) => {
+app.post('/hs_01/api/bloggers',checkHeaders,bloggerValidationRules,
+    inputValidatorMiddleware, (req: Request, res: Response) => {
     let isValid = true;
     let errorMessage: ErrorMessageType[] = [];
     if (!req.body.name) {
@@ -64,7 +73,9 @@ app.post('/hs_01/api/bloggers',checkHeaders, (req: Request, res: Response) => {
     }
 })
 
-app.get('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
+app.get('/hs_01/api/bloggers/:bloggerId',
+    check('bloggerId').isInt({min: 1}).withMessage('id should be integer positive value'),
+    inputValidatorMiddleware, (req: Request, res: Response) => {
     const id = +req.params.bloggerId
     const blogger = bloggers.find(b => b.id === id)
     if (blogger) {
@@ -76,7 +87,12 @@ app.get('/hs_01/api/bloggers/:bloggerId', (req: Request, res: Response) => {
     }
 })
 
-app.put('/hs_01/api/bloggers/:bloggerId',checkHeaders, (req: Request, res: Response) => {
+app.put('/hs_01/api/bloggers/:bloggerId',
+    checkHeaders,
+    check('bloggerId').isInt({min: 1}).withMessage('id should be positive integer value'),
+    bloggerValidationRules,
+    inputValidatorMiddleware,
+    (req: Request, res: Response) => {
 
     let isValid = true;
     let errorMessage: ErrorMessageType[] = [];
@@ -124,7 +140,12 @@ app.put('/hs_01/api/bloggers/:bloggerId',checkHeaders, (req: Request, res: Respo
     }
 })
 
-app.delete('/hs_01/api/bloggers/:Id',checkHeaders, (req: Request, res: Response) => {
+app.delete('/hs_01/api/bloggers/:Id',
+    checkHeaders,
+    check('bloggerId').isInt({min: 1}).withMessage('id should be positive integer value'),
+    bloggerValidationRules,
+    inputValidatorMiddleware,
+    (req: Request, res: Response) => {
     const id = +req.params.Id
     const newBloggers = bloggers.filter(b => b.id === id)
 
@@ -142,7 +163,10 @@ app.delete('/hs_01/api/bloggers/:Id',checkHeaders, (req: Request, res: Response)
 
 
 
-app.post('/hs_01/api/posts',checkHeaders, (req: Request, res: Response) => {
+app.post('/hs_01/api/posts',
+    checkHeaders,
+    postValidationRules,
+    inputValidatorMiddleware, (req: Request, res: Response) => {
     const blogger = bloggers.find(b => b.id === +req.body.bloggerId)
 
     if (!req.body.shortDescription
@@ -168,7 +192,10 @@ app.post('/hs_01/api/posts',checkHeaders, (req: Request, res: Response) => {
 
 })
 
-app.get('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
+app.get('/hs_01/api/posts/:postId',paginationRules,
+    check('postId').isInt({min: 1}).withMessage('id should be numeric value'),
+    inputValidatorMiddleware,
+     (req: Request, res: Response) => {
     const id = +req.params.postId
     const post = posts.find(p => p.id === id)
     if (post) {
@@ -178,7 +205,13 @@ app.get('/hs_01/api/posts/:postId', (req: Request, res: Response) => {
     }
 })
 
-app.put('/hs_01/api/posts/:postId', checkHeaders, (req: Request, res: Response) => {
+app.put('/hs_01/api/posts/:postId',
+    postValidationRules,
+    checkHeaders,
+    check('postId').isInt({min: 1}).withMessage('id should be numeric value'),
+    inputValidatorMiddleware,
+
+    (req: Request, res: Response) => {
 
     const id = +req.params.postId
     const updatePost = {
