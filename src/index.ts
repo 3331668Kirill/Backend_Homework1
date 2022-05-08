@@ -144,9 +144,9 @@ app.put('/hs_01/api/bloggers/:bloggerId',
 
 app.delete('/hs_01/api/bloggers/:Id',
     checkHeaders,
-    check('Id').isInt({min: 1}).withMessage('id should be positive integer value'),
-    bloggerValidationRules,
-    inputValidatorMiddleware,
+    // check('Id').isInt({min: 1}).withMessage('id should be positive integer value'),
+    // bloggerValidationRules,
+    // inputValidatorMiddleware,
     (req: Request, res: Response) => {
     const id = +req.params.Id
     const newBloggers = bloggers.filter(b => b.id === id)
