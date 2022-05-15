@@ -5,7 +5,7 @@ import {v4 as uuidv4} from "uuid";
 
 export const commentsService = {
 
-    async getComments(paginationData: QueryDataType, PostId: string | null) {
+    async getComments(paginationData: QueryDataType, PostId: string | null | number) {
         const comments = await commentsRepository.getComments(paginationData, PostId)
         return comments
     },

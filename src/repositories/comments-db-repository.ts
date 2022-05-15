@@ -1,7 +1,7 @@
 import {commentsCollection, CommentType, QueryDataType} from "./db";
 
 export const commentsRepository = {
-    async getComments(paginationData: QueryDataType, postId: string | null) {
+    async getComments(paginationData: QueryDataType, postId: string | null | number) {
 
         let filter = postId
             ?{content : {$regex : paginationData.searchNameTerm ? paginationData.searchNameTerm : ""}, postId }

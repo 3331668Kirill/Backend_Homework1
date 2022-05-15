@@ -14,7 +14,7 @@ export type PostType = {
     title: string | null;
     shortDescription: string | null;
     content: string | null;
-    bloggerId: string;
+    bloggerId: string | number;
     bloggerName?: string | null;
 }
 export type BloggerType = {
