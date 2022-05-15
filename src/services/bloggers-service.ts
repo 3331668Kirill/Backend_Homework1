@@ -13,8 +13,8 @@ export class BloggersService {
     }
     async createBlogger(name: string, youtubeUrl: string): Promise<BloggerType> {
         const bloggerToPush = {
-            id: uuidv4(),
-            //id: +(new Date()),
+            //id: uuidv4(),
+            id: +(new Date()),
             name,
             youtubeUrl
         }

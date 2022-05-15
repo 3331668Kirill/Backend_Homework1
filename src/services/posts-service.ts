@@ -18,7 +18,8 @@ export class PostsService {
     async createPost(newPostData: PostType): Promise<PostType | boolean> {
         const postToCreate = {
             ...newPostData,
-            id: uuidv4(),
+            //id: uuidv4(),
+            id: +(new Date()),
         }
         return await this.postsRepository.createPost(postToCreate)
 
