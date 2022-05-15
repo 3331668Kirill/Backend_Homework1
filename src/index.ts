@@ -11,7 +11,6 @@ import {commentsRouter} from "./routes/comments-router";
 const jsonBodyMiddleware = bodyParser.json()
 const app = express()
 const port = process.env.PORT || 5002
-//const urlValidator = /^(http(s)?:\/\/)?([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+\/[/a-zA-Z0-9_-]+$/
 
 app.use(jsonBodyMiddleware)
 app.use(cors())
@@ -21,9 +20,6 @@ app.use('/api/users', usersRouter)
 app.use('/api/comments', commentsRouter)
 app.use('/api/auth', authRouter)
 
-
-
-//Home
 app.get('/*', (req: Request, res: Response) => {
     res.send({
         "/api/bloggers": "GET, POST",
