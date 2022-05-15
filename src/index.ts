@@ -1,268 +1,43 @@
 import express, {Request, Response} from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import {ErrorMessageType, PostType} from "./types";
-import {bloggers, posts} from "./state";
-import {checkHeaders} from "./middlewares/base-authmiddleware";
-import {
-    bloggerValidationRules,
-    inputValidatorMiddleware,
-    paginationRules,
-    postValidationRules
-} from "./middlewares/input-validator";
-import {check} from "express-validator";
+import {bloggersRouter} from "./routes/bloggers-router";
+import {postsRouter} from "./routes/posts-router";
+import {runDb} from "./repositories/db";
+import {usersRouter} from "./routes/users-router";
+import {authRouter} from "./routes/auth-router";
+import {commentsRouter} from "./routes/comments-router";
 
-const port = process.env.PORT || 5002
 const jsonBodyMiddleware = bodyParser.json()
 const app = express()
+const port = process.env.PORT || 5002
+//const urlValidator = /^(http(s)?:\/\/)?([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+\/[/a-zA-Z0-9_-]+$/
 
-
-const urlForValidation = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+$/
-
-app.use(cors())
 app.use(jsonBodyMiddleware)
+app.use(cors())
+app.use('/api/bloggers', bloggersRouter)
+app.use('/api/posts', postsRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/comments', commentsRouter)
+app.use('/api/auth', authRouter)
 
 
-app.get('/hs_01/api/bloggers/',paginationRules,
-    inputValidatorMiddleware, (req: Request, res: Response) => {
-    //res.status(200)
-    res.send(bloggers);
+
+//Home
+app.get('/*', (req: Request, res: Response) => {
+    res.send({
+        "/api/bloggers": "GET, POST",
+        "/api/bloggers/:postId": "GET, PUT, DELETE",
+        "/api/posts": "GET, POST",
+        "/api/posts/:postId": "GET, PUT, DELETE"
+    })
 })
 
-app.get('/hs_01/api/posts', paginationRules, (req: Request, res: Response) => {
-    //res.status(200)
-    res.send(posts)
-})
+async function startServer() {
+    await runDb()
+    await app.listen(port, () => {
+        console.log(`App listening on port ${port}`)
+    })
+}
 
-app.post('/hs_01/api/bloggers',
-    checkHeaders,
-    bloggerValidationRules,
-    inputValidatorMiddleware, (req: Request, res: Response) => {
-
-        const newBlogger = {
-            id: +(new Date()),
-            name: req.body.name,
-            youtubeUrl: req.body.youtubeUrl
-        }
-        bloggers.push(newBlogger)
-        res.status(201);
-        res.send(newBlogger)
-
-})
-
-app.get('/hs_01/api/bloggers/:bloggerId', paginationRules,
-    check('bloggerId').isInt({min: 1}).withMessage('id should be integer positive value'),
-    inputValidatorMiddleware, (req: Request, res: Response) => {
-    const id = +req.params.bloggerId
-    const blogger = bloggers.find(b => b.id === id)
-    if (blogger) {
-        res.status(200)
-        res.send(blogger)
-    } else {
-        res.status(404)
-        res.send(404)
-    }
-})
-
-app.put('/hs_01/api/bloggers/:bloggerId',
-    checkHeaders,
-    check('bloggerId').isInt({min: 1}).withMessage('id should be positive integer value'),
-    bloggerValidationRules,
-    inputValidatorMiddleware,
-    (req: Request, res: Response) => {
-
-    let isValid = true;
-    let errorMessage: ErrorMessageType[] = [];
-    const id = +req.params.bloggerId
-    const blogger = bloggers.find(b => b.id === id)
-    if (!blogger) {
-        res.status(404)
-        res.send(404)
-        return
-    }
-    if (!urlForValidation.test(req.body.youtubeUrl)) {
-        isValid = false;
-        errorMessage.push({
-            message: "blogger's youtube`s URL invalid",
-            field: "youtubeUrl"
-        })
-        res.send(400)
-    }
-    if (!id) {
-        isValid = false;
-        errorMessage.push({
-            message: "blogger's id is invalid",
-            field: "id"
-        })
-        res.send(400)
-    }
-    if (!req.body.name) {
-        isValid = false;
-        errorMessage.push({
-            message: "blogger's name is invalid",
-            field: "name"
-        })
-        res.send(400)
-    }
-    if (isValid) {
-        blogger.name = req.body.name
-        blogger.youtubeUrl = req.body.youtubeUrl
-        res.send(204)
-    }else{
-        res.status(400)
-        res.send({"errorsMessages": errorMessage,
-            "resultCode": 1
-        })
-        res.send(400)
-    }
-})
-
-app.delete('/hs_01/api/bloggers/:Id',
-    checkHeaders,
-
-    (req: Request, res: Response) => {
-    const id = +req.params.Id
-    const newBloggers = bloggers.filter(b => b.id === id)
-
-    if (newBloggers.length && newBloggers.length <= bloggers.length) {
-        const ind = bloggers.indexOf(newBloggers[0])
-        bloggers.splice(ind,1)
-        res.status(204)
-            res.send(204)
-    } else {
-        res.status(404)
-        res.send({
-            "errorsMessages": [{
-                message: "blogger not found",
-                field: "id"
-            }],
-            "resultCode": 0
-        })
-    }
-})
-
-
-
-
-app.post('/hs_01/api/posts',
-    checkHeaders,
-    postValidationRules,
-    inputValidatorMiddleware, (req: Request, res: Response) => {
-    const blogger = bloggers.find(b => b.id === +req.body.bloggerId)
-
-    if (!req.body.shortDescription
-        && !req.body.content && !req.body.title) {
-        res.send(400)
-    } else if (!blogger) {
-        res.status(400).send({
-            "errorsMessages": [
-                {
-                    message: "blogger not found",
-                    field: "bloggerId"
-                }
-            ],
-            "resultCode": 1
-        })
-    } else if (req.body.shortDescription > 100) {
-        res.status(400).send('max length 100')
-    }
-    else {
-        const newPost: PostType = {
-            id: +(new Date()),
-            title: req.body.title,
-            content: req.body.content,
-            bloggerId: req.body.bloggerId,
-            shortDescription: req.body.shortDescription,
-            bloggerName: blogger.name
-        }
-        posts.push(newPost)
-        res.status(201).send(newPost)
-    }
-
-})
-
-app.get('/hs_01/api/posts/:postId',paginationRules,
-    check('postId').isInt({min: 1}).withMessage('id should be numeric value'),
-    inputValidatorMiddleware,
-     (req: Request, res: Response) => {
-    const id = +req.params.postId
-    const post = posts.find(p => p.id === id)
-    if (post) {
-        res.send(post)
-    } else {
-        res.send(404)
-    }
-})
-
-app.put('/hs_01/api/posts/:postId',
-    postValidationRules,
-    checkHeaders,
-    check('postId').isInt({min: 1}).withMessage('id should be numeric value'),
-    inputValidatorMiddleware,
-
-    (req: Request, res: Response) => {
-
-    const id = +req.params.postId
-    const updatePost = {
-        title: req.body.title,
-        shortDescription: req.body.shortDescription,
-        content: req.body.content,
-        bloggerId: req.body.bloggerId
-    }
-
-    const bloggerToUpdate = bloggers.find(b => b.id === updatePost.bloggerId)
-    if (!bloggerToUpdate) {
-        res.status(400).send({
-            "errorsMessages": [
-                {
-                    message: "blogger not found",
-                    field: "bloggerId"
-                }
-            ],
-            "resultCode": 1
-        })
-        return
-    }
-
-    const updatedPost = posts.find(p => p.id === id)
-    if (!updatedPost) {
-        res.status(404)
-        res.send({
-            "data": {},
-            "errorsMessages": [{
-                message: "post not found",
-                field: "id"
-            }],
-            "resultCode": 0
-        })
-    } else {
-        updatedPost.content = req.body.content
-        updatedPost.title = req.body.title,
-            updatedPost.shortDescription = req.body.shortDescription,
-            updatedPost.content = req.body.content,
-
-
-        res.status(204).send(updatePost)
-    }
-})
-
-
-app.delete('/hs_01/api/posts/:postId',checkHeaders, (req: Request, res: Response) => {
-    const id = +req.params.postId
-    const newPosts = posts.filter(p => p.id === id)
-
-    if (newPosts.length && newPosts.length <= posts.length) {
-        const ind = posts.indexOf(newPosts[0])
-        posts.splice(ind,1)
-        res.status(204)
-        res.send(204)
-    } else {
-        res.status(404)
-        res.send( 404)
-    }
-})
-
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+startServer()
