@@ -5,7 +5,7 @@ import {v4 as uuidv4} from "uuid";
 export class PostsService {
     constructor(private postsRepository: PostsRepository) {
     }
-    async getPosts(page: number, pageSize: number, searchNameTerm: string, bloggerId: string | null) {
+    async getPosts(page: number, pageSize: number, searchNameTerm: string, bloggerId: string | null | number) {
         const postsToSend = await this.postsRepository.getPosts(page, pageSize, searchNameTerm, bloggerId)
         return postsToSend
     }

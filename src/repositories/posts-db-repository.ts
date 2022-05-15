@@ -5,7 +5,7 @@ export class PostsRepository  {
     constructor(private postsCollection: any,//те же вопросы что для блогеров
                 private bloggersCollection: any,
                 private bloggersRepository: BloggersRepository) {}
-    async getPosts(page: number, pageSize: number, searchNameTerm: string, bloggerId: string | null) {
+    async getPosts(page: number, pageSize: number, searchNameTerm: string, bloggerId: string | null | number) {
         let allPosts: PostType[] = []
         let filter = bloggerId
             ?{title : {$regex : searchNameTerm ? searchNameTerm : ""}, bloggerId}
