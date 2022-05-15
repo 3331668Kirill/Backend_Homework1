@@ -22,7 +22,7 @@ export class BloggersRepository  {
             items: bloggers
         })
     }
-    async getBloggerById(bloggerId: number): Promise<BloggerType | false> {
+    async getBloggerById(bloggerId: string): Promise<BloggerType | false> {
         const blogger = await this.bloggersCollection.findOne({id: bloggerId})
         if (blogger) {
             delete blogger._id
@@ -37,7 +37,7 @@ export class BloggersRepository  {
             youtubeUrl: newBlogger.youtubeUrl
         }
     }
-    async updateBloggerById(id: number, name: string, youtubeUrl: string) {
+    async updateBloggerById(id: string, name: string, youtubeUrl: string) {
         const result = await this.bloggersCollection.updateOne({id},
             {
                 $set: {
@@ -52,7 +52,7 @@ export class BloggersRepository  {
         )
         return result.modifiedCount === 1
     }
-    async deleteBloggerById(id: number): Promise<boolean> {
+    async deleteBloggerById(id: string): Promise<boolean> {
         const result = await this.bloggersCollection.deleteOne({id})
         return result.deletedCount === 1
     }

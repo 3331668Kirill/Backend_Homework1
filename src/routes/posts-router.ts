@@ -31,7 +31,7 @@ postsRouter
         inputValidatorMiddleware,
         baseAuthMiddleware,
         async (req: Request, res: Response) => {
-            const bloggerId: number = +req.body.bloggerId
+            const bloggerId: string = req.body.bloggerId
             const blogger = await bloggersService.getBloggerById(bloggerId)
             if (!blogger) {
                 res.status(400).send({
@@ -57,7 +57,7 @@ postsRouter
     .get('/:postId',
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-            const postId = +req.params.postId
+            const postId = req.params.postId
             const returnedPost = await postsService.getPostById(postId)
             if (returnedPost) {
                 res.send(returnedPost)
@@ -78,12 +78,12 @@ postsRouter
         inputValidatorMiddleware,
         baseAuthMiddleware,
         async (req: Request, res: Response) => {
-            const id = +req.params.postId
+            const id = req.params.postId
             const updatePost = {
                 title: req.body.title,
                 shortDescription: req.body.shortDescription,
                 content: req.body.content,
-                bloggerId: +req.body.bloggerId
+                bloggerId: req.body.bloggerId
             }
             const bloggerToUpdate = await bloggersService.getBloggerById(updatePost.bloggerId)
             if (!bloggerToUpdate) {
@@ -115,7 +115,7 @@ postsRouter
         checkHeaders,
         baseAuthMiddleware,
         async (req: Request, res: Response) => {
-            const id = +req.params.postId
+            const id = req.params.postId
             const isDeleted = await postsService.deletePostById(id)
             if (isDeleted) {
                 res.sendStatus(204)
@@ -133,7 +133,7 @@ postsRouter
         paginationRules,
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-            const id = +req.params.postId
+            const id = req.params.postId
             const paginationData = getPaginationData(req.query)
             const comments: PostWithPaginationType = await commentsService
                 .getComments(paginationData, id)

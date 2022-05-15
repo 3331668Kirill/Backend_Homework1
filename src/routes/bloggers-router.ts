@@ -42,7 +42,7 @@ bloggersRouter
         baseAuthMiddleware,
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-            const bloggerId = +req.params.bloggerId
+            const bloggerId = req.params.bloggerId
             let newPost = await postsService.createPost({
                 title: req.body.title,
                 shortDescription: req.body.shortDescription,
@@ -59,7 +59,7 @@ bloggersRouter
     .get('/:bloggerId',
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-            const bloggerId = +req.params.bloggerId
+            const bloggerId = req.params.bloggerId
             const blogger = await bloggersService.getBloggerById(bloggerId)
             if (blogger) {
                 res.status(200).send(blogger)
@@ -80,7 +80,7 @@ bloggersRouter
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
             const {page, pageSize, searchNameTerm} = getPaginationData(req.query)
-            const bloggerId = +req.params.bloggerId
+            const bloggerId = req.params.bloggerId
             const blogger = await bloggersService.getBloggerById(bloggerId)
             if (blogger) {
                 const posts = await postsService.getPosts(page, pageSize, searchNameTerm, bloggerId)
@@ -102,7 +102,7 @@ bloggersRouter
         bloggerValidationRules,
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-            const bloggerId: number = +req.params.bloggerId
+            const bloggerId: string = req.params.bloggerId
             const blogger = await bloggersService.updateBloggerById(
                 bloggerId,
                 req.body.name,
@@ -126,7 +126,7 @@ bloggersRouter
         baseAuthMiddleware,
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-            const bloggerId = +req.params.bloggerId
+            const bloggerId = req.params.bloggerId
             const isDeleted = await bloggersService.deleteBloggerById(bloggerId)
             if (isDeleted) {
                 res.send(204)
