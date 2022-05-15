@@ -57,7 +57,7 @@ export type QueryDataType = {
     searchNameTerm: string;
 }
 
-const mongoUri = process.env.mongoURI || "mongodb+srv://3331668:999915748@cluster0.qdyw1.mongodb.net/app?retryWrites=true&w=majority"
+const mongoUri = "mongodb+srv://3331668:999915748@cluster0.qdyw1.mongodb.net/app?retryWrites=true&w=majority"
 export const client = new MongoClient(mongoUri)
 export const bloggersCollection = client.db("bloggersDB").collection("bloggers")
 export const postsCollection = client.db("bloggersDB").collection("posts")
