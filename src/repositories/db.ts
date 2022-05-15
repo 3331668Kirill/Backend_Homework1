@@ -17,7 +17,7 @@ export type PostType = {
     bloggerName?: string | null;
 }
 export type BloggerType = {
-    id: string;
+    id: string | number;
     name: string | null;
     youtubeUrl: string | null;
 }
