@@ -42,7 +42,7 @@ bloggersRouter
         baseAuthMiddleware,
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-            const bloggerId = req.params.bloggerId
+            const bloggerId = +req.params.bloggerId
             let newPost = await postsService.createPost({
                 title: req.body.title,
                 shortDescription: req.body.shortDescription,
