@@ -8,7 +8,7 @@ export class BloggersService {
     async getBloggers(page: number, pageSize: number, searchNameTerm: string) {
         return await this.bloggersRepository.getBloggers(page, pageSize, searchNameTerm)
     }
-    async getBloggerById(id: string): Promise<BloggerType | boolean> {
+    async getBloggerById(id: number): Promise<BloggerType | boolean> {
         return await this.bloggersRepository.getBloggerById(id)
     }
     async createBlogger(name: string, youtubeUrl: string): Promise<BloggerType> {
@@ -20,11 +20,11 @@ export class BloggersService {
         }
         return await this.bloggersRepository.createBlogger(bloggerToPush)
     }
-    async updateBloggerById(id: string, name: string, youtubeUrl: string): Promise<BloggerType | boolean> {
+    async updateBloggerById(id: number, name: string, youtubeUrl: string): Promise<BloggerType | boolean> {
         const bloggerResult = await this.bloggersRepository.updateBloggerById(id, name, youtubeUrl)
         return bloggerResult
     }
-    async deleteBloggerById(id: string): Promise<boolean> {
+    async deleteBloggerById(id: number): Promise<boolean> {
         return await this.bloggersRepository.deleteBloggerById(id)
     }
 }
