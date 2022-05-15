@@ -2,8 +2,8 @@ import {bloggersCollection, BloggerType, postsCollection} from "./db";
 
 
 export class BloggersRepository  {
-    constructor(private bloggersCollection: any, private postsCollection: any ) {//Как типизировать?Тип передавать в конструктор?
-    }                                                                            // Что делает private?
+    constructor(private bloggersCollection: any, private postsCollection: any ) {
+    }
     async getBloggers(page: number, pageSize: number, searchNameTerm: string) {
         const filter = {name : {$regex : searchNameTerm ? searchNameTerm : ""}}
         const bloggers = await this.bloggersCollection
