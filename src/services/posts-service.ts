@@ -9,7 +9,7 @@ export class PostsService {
         const postsToSend = await this.postsRepository.getPosts(page, pageSize, searchNameTerm, bloggerId)
         return postsToSend
     }
-    async getPostById(id: string): Promise<PostType | false> {
+    async getPostById(id: number): Promise<PostType | false> {
         const post = await this.postsRepository.getPostById(id)
         if (post) {
             return post
@@ -24,13 +24,13 @@ export class PostsService {
         return await this.postsRepository.createPost(postToCreate)
 
     }
-    async updatePostById(id: string, newPost: PostType) {
+    async updatePostById(id: number, newPost: PostType) {
         return await this.postsRepository.updatePostById({
             id,
             ...newPost
         })
     }
-    async deletePostById(id: string): Promise<boolean> {
+    async deletePostById(id: number): Promise<boolean> {
         return await this.postsRepository.deletePostById(id)
     }
 }

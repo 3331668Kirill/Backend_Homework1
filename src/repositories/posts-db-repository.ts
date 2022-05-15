@@ -26,7 +26,7 @@ export class PostsRepository  {
             items: allPosts
         })
     }
-    async getPostById(id: string) {
+    async getPostById(id: number) {
         const post = await this.postsCollection.findOne({id})
         if (!post) return false
         const blogger = await this.bloggersRepository.getBloggerById(post.bloggerId)
@@ -65,7 +65,7 @@ export class PostsRepository  {
         })
         return result.modifiedCount === 1
     }
-    async deletePostById(id: string) {
+    async deletePostById(id: number) {
         const result = await this.postsCollection.deleteOne({id})
         return result.deletedCount === 1
     }
