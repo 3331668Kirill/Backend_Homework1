@@ -20,6 +20,7 @@ export const checkHeaders = async (req: Request, res: Response, next: NextFuncti
 }
 
 export const baseAuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+
     try {
         let authorizationHeader = req.headers.authorization
         let authorizationData = ""

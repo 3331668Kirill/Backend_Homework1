@@ -24,7 +24,7 @@ usersRouter
 
     .post('/',
         checkHeaders,
-        baseAuthMiddleware,
+        //baseAuthMiddleware,
         userValidationRules,
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
