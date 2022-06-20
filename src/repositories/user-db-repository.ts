@@ -30,7 +30,7 @@ export const usersRepository = {
         }
     },
     async deleteUser(id: string): Promise<boolean> {
-        const result = await usersCollection.deleteOne({id: new ObjectId(id)})
+        const result = await usersCollection.deleteOne({id})
         return result.deletedCount === 1
     },
     findUserById(id: ObjectId) {

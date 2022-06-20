@@ -20,6 +20,7 @@ app.use('/api/users', usersRouter)
 app.use('/api/comments', commentsRouter)
 app.use('/api/auth', authRouter)
 
+
 app.get('/*', (req: Request, res: Response) => {
     res.send({
         "/api/bloggers": "GET, POST",
