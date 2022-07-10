@@ -50,7 +50,7 @@ commentsRouter
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
             const commentId = req.params.commentId
-            //403 error
+
             const result = await commentsService.deleteComment(commentId)
             if(result){
                 res.sendStatus(204)

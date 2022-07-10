@@ -26,7 +26,7 @@ export const userValidationRules = [
 ]
 export const commentValidationRules = [
     body("content").isString().isLength({min: 20, max: 300})
-        .withMessage('Password length should be:  20<len<300')
+        .withMessage('length should be:  20<len<300')
 ]
 export const paginationRules = [
     check('page').optional({checkFalsy: true,  }, )
@@ -50,7 +50,7 @@ export const inputValidatorMiddleware = (req: Request, res: Response, next: Next
         res.status(400).json(
             {
                 "errorsMessages": errorsOccurred,
-                "resultCode": 1
+                // "resultCode": 1
             }
         )
     }
