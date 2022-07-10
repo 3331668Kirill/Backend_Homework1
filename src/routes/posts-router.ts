@@ -41,7 +41,7 @@ postsRouter
                             field: "bloggerId"
                         }
                     ],
-                    "resultCode": 1
+                   // "resultCode": 1
                 })
             } else {
                 const newPost = await postsService.createPost({
@@ -92,7 +92,7 @@ postsRouter
                         message: "blogger not found",
                         field: "bloggerId"
                     }],
-                    "resultCode": 1
+                   // "resultCode": 1
                 })
                 return
             }
